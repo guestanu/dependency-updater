@@ -68,34 +68,42 @@ jobs:
             echo 'Checking out:' ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'master branch'
             echo "=========================================================="
             git checkout -b ${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }} ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}'/main'
-            mvn versions:update-properties -DgenerateBackupPoms=false -Dincludes=org.wso2.carbon.identity.*,org.wso2.carbon.extension.identity.*,org.wso2.charon,org.apache.rampart.wso2,org.apache.ws.security.wso2,org.wso2.carbon.consent.*,org.wso2.carbon.database.utils -U
-      - name: Show Dependency Updates
-        run: |
-          git diff --color > dependency_updates.diff
-          cat dependency_updates.diff
-      - name: Build
-        run: |
-          mvn clean install -Dmaven.test.failure.ignore=false | tee mvn-build.log
-          PR_BUILD_STATUS=$(cat mvn-build.log | grep "\[INFO\] BUILD" | grep -oE '[^ ]+$')
-          PR_TEST_RESULT=$(sed -n -e '/\[INFO\] Results:/,/\[INFO\] Tests run:/ p' mvn-build.log)
-
-          PR_BUILD_FINAL_RESULT=$(
-            echo "==========================================================="
-            echo "product-is BUILD $PR_BUILD_STATUS"
-            echo "=========================================================="
+            
             echo ""
-            echo "$PR_TEST_RESULT"
-          )
+            echo 'Updating dependencies'
+            echo "=========================================================="
+            mvn versions:update-properties -DgenerateBackupPoms=false -Dincludes=org.wso2.carbon.identity.*,org.wso2.carbon.extension.identity.*,org.wso2.charon,org.apache.rampart.wso2,org.apache.ws.security.wso2,org.wso2.carbon.consent.*,org.wso2.carbon.database.utils -U
 
-          PR_BUILD_RESULT_LOG_TEMP=$(echo "$PR_BUILD_FINAL_RESULT" | sed 's/$/%0A/')
-          PR_BUILD_RESULT_LOG=$(echo $PR_BUILD_RESULT_LOG_TEMP)
-          echo "::warning::$PR_BUILD_RESULT_LOG"
+            echo ""
+            echo 'Available updates'
+            echo "=========================================================="
+            git diff --color > dependency_updates.diff
+            cat dependency_updates.diff
+            
+            echo ""
+            echo 'Build'
+            echo "=========================================================="
+            mvn clean install -Dmaven.test.failure.ignore=false | tee mvn-build.log
+            PR_BUILD_STATUS=$(cat mvn-build.log | grep "\[INFO\] BUILD" | grep -oE '[^ ]+$')
+            PR_TEST_RESULT=$(sed -n -e '/\[INFO\] Results:/,/\[INFO\] Tests run:/ p' mvn-build.log)
 
-          if [ "$PR_BUILD_STATUS" != "SUCCESS" ]; then
-            echo "PR BUILD not successfull. Aborting."
-            echo "::error::PR BUILD not successfull. Check artifacts for logs."
-            exit 1
-          fi
+            PR_BUILD_FINAL_RESULT=$(
+              echo "==========================================================="
+              echo "product-is BUILD $PR_BUILD_STATUS"
+              echo "=========================================================="
+              echo ""
+              echo "$PR_TEST_RESULT"
+            )
+
+            PR_BUILD_RESULT_LOG_TEMP=$(echo "$PR_BUILD_FINAL_RESULT" | sed 's/$/%0A/')
+            PR_BUILD_RESULT_LOG=$(echo $PR_BUILD_RESULT_LOG_TEMP)
+            echo "::warning::$PR_BUILD_RESULT_LOG"
+
+            if [ "$PR_BUILD_STATUS" != "SUCCESS" ]; then
+              echo "PR BUILD not successfull. Aborting."
+              echo "::error::PR BUILD not successfull. Check artifacts for logs."
+              exit 1
+            fi
       - name: Archive dependency diff file 
         if: always()
         uses: actions/upload-artifact@v2
