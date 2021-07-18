@@ -42,46 +42,19 @@ jobs:
       - name: Update Dependencies
         run: |
             echo ""
-            echo "Starting dependency upgrade"
-            echo "=========================================================="
-
-            echo ""
-            echo "Clean up any existing files"
-            echo "=========================================================="
-            rm -rf ${{ env.REPOSITORY }}
-
-            echo ""
-            echo "Cloning: https://github.com/'${{ env.PRODUCT_REPOSITORY_FORKED }}"
-            echo "=========================================================="
-            git clone 'https://github.com/'${{ env.PRODUCT_REPOSITORY_FORKED }}'.git'
-            cd ${{ env.REPOSITORY }}
-
-            echo ""
-            echo 'Add remote: '${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'as https://github.com/'${{ env.PRODUCT_REPOSITORY_PUBLIC }}
-            echo "=========================================================="
-            git remote add ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'https://@github.com/'${{ env.PRODUCT_REPOSITORY_PUBLIC }}
-
-            echo ""
-            echo 'Fetching:' ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}
-            echo "=========================================================="
-            git fetch ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}
-
-            echo ""
-            echo 'Checking out:' ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'master branch'
-            echo "=========================================================="
-            git checkout -b ${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }} ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}'/main'
-            
-            echo ""
             echo 'Updating dependencies'
             echo "=========================================================="
             mvn versions:update-properties -DgenerateBackupPoms=false -Dincludes=org.wso2.carbon.identity.*,org.wso2.carbon.extension.identity.*,org.wso2.charon,org.apache.rampart.wso2,org.apache.ws.security.wso2,org.wso2.carbon.consent.*,org.wso2.carbon.database.utils -U
 
+      - name: Show updated dependencies
+        run: |
             echo ""
             echo 'Available updates'
             echo "=========================================================="
             git diff --color > dependency_updates.diff
             cat dependency_updates.diff
-            
+      - name: Build
+        run: |
             echo ""
             echo 'Build'
             echo "=========================================================="
