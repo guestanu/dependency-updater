@@ -87,6 +87,7 @@ jobs:
           DEPENDENCY_UPGRADE_BRANCH_NAME=$(echo IS_dependency_updater_github_action/$BUILD_NUMBER)
           git config --global user.name ${{ secrets.GIT_USERNAME}}
           git commit -a -m 'Bump dependencies from '$DEPENDENCY_UPGRADE_BRANCH_NAME
+          git push -u origin ${DEPENDENCY_UPGRADE_BRANCH_NAME}
           TITLE="Bump Dependencies #"$BUILD_NUMBER
           STATUS=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -k -X \
           POST https://api.github.com/repos/${PRODUCT_REPOSITORY_PUBLIC}/pulls \
