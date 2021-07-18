@@ -1840,7 +1840,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity.framework</groupId>
                 <artifactId>org.wso2.carbon.identity.template.mgt.server.feature</artifactId>
-                <version>${carbon.identity.framework.version}</version>
+                <version>${identity.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.identity.framework</groupId>
@@ -2027,6 +2027,7 @@
 
         <!--Carbon Identity Framework Version-->
         <carbon.identity.framework.version>5.20.102</carbon.identity.framework.version>
+	<identity.framework.version>5.20.102</identity.framework.version>
         <carbon.identity.framework.version.range>[5.14.67, 6.0.0]</carbon.identity.framework.version.range>
 
         <!--SAML Common Utils Version-->
