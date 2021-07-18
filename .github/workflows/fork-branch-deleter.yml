@@ -24,4 +24,3 @@ jobs:
       - name: Delete Fork Branch of wso2-jenkins-bot
         run: git push -d origin ${{ github.event.pull_request.head.ref }}
         
-{"mode":"full","isActive":false}
