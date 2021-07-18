@@ -95,5 +95,3 @@ jobs:
           url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
           status: ${{ job.status }}
         if: always()
-
-{"mode":"full","isActive":false}
