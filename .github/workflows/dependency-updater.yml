@@ -7,7 +7,13 @@ on:
     
 env:
   MAVEN_OPTS: -Xmx4g -Xms1g
-
+  REPOSITORY: dependency-updater
+  PRODUCT_REPOSITORY_FORKED: ${{ secrets.GIT_USERNAME }}'/'${REPOSITORY}
+  REMOTE_PRODUCT_REPOSITORY_PUBLIC: AnuradhaSK/$REPOSITORY
+  PRODUCT_REPOSITORY_PUBLIC: AnuradhaSK/$REPOSITORY
+  BUILD_NUMBER: ${{github.run_id}}
+  DEPENDENCY_UPGRADE_BRANCH_NAME: IS_dependency_updater_github_action/$BUILD_NUMBER
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,7 +39,36 @@ jobs:
             ${{ runner.os }}-
       - name: Update Dependencies
         run: |
-           mvn versions:use-latest-versions -DgenerateBackupPoms=false -Dincludes=org.wso2.carbon.identity.*,org.wso2.carbon.extension.identity.*,org.wso2.charon,org.apache.rampart.wso2,org.apache.ws.security.wso2,org.wso2.carbon.consent.*,org.wso2.carbon.database.utils -U
+            echo ""
+            echo "Starting dependency upgrade"
+            echo "=========================================================="
+
+            echo ""
+            echo "Clean up any existing files"
+            echo "=========================================================="
+            rm -rf ${{ env.REPOSITORY }}
+
+            echo ""
+            echo "Cloning: https://github.com/'${{ env.PRODUCT_REPOSITORY_FORKED }}"
+            echo "=========================================================="
+            git clone 'https://github.com/'${{ env.PRODUCT_REPOSITORY_FORKED }}'.git'
+            cd ${{ env.REPOSITORY }}
+
+            echo ""
+            echo 'Add remote: '${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'as https://github.com/'${{ env.PRODUCT_REPOSITORY_PUBLIC }}
+            echo "=========================================================="
+            git remote add ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'https://@github.com/'${{ env.PRODUCT_REPOSITORY_PUBLIC }}
+
+            echo ""
+            echo 'Fetching:' ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}
+            echo "=========================================================="
+            git fetch ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}
+
+            echo ""
+            echo 'Checking out:' ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'master branch'
+            echo "=========================================================="
+            git checkout -b ${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }} ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}'/master'
+            mvn versions:use-latest-versions -DgenerateBackupPoms=false -Dincludes=org.wso2.carbon.identity.*,org.wso2.carbon.extension.identity.*,org.wso2.charon,org.apache.rampart.wso2,org.apache.ws.security.wso2,org.wso2.carbon.consent.*,org.wso2.carbon.database.utils -U
       - name: Show Dependency Updates
         run: |
           git diff --color > dependency_updates.diff
@@ -81,22 +116,17 @@ jobs:
           git clean -f -d
       - name: Create Pull Request
         run: |
-          REPOSITORY=dependency-updater
-          PRODUCT_REPOSITORY_PUBLIC=AnuradhaSK/$REPOSITORY
-          PRODUCT_REPOSITORY_FORKED=${{ secrets.GIT_USERNAME }}'/'${REPOSITORY}
-          BUILD_NUMBER=${{github.run_id}}
-          DEPENDENCY_UPGRADE_BRANCH_NAME=$(echo IS_dependency_updater_github_action/$BUILD_NUMBER)
           git config --global user.name ${{ secrets.GIT_USERNAME }}
-          git commit -a -m 'Bump dependencies from '$DEPENDENCY_UPGRADE_BRANCH_NAME
+          git commit -a -m 'Bump dependencies from '${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}
           git remote rm origin
-          git remote add origin 'https://'${{ secrets.PAT }}'@github.com/'${PRODUCT_REPOSITORY_FORKED}
-          git push -u origin ${DEPENDENCY_UPGRADE_BRANCH_NAME}
-          TITLE="Bump Dependencies #"$BUILD_NUMBER
+          git remote add origin 'https://'${{ secrets.PAT }}'@github.com/'${{ env.PRODUCT_REPOSITORY_FORKED }}
+          git push -u origin ${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}
+          TITLE="Bump Dependencies #"${{ env.BUILD_NUMBER }}
           STATUS=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -k -X \
-          POST https://api.github.com/repos/${PRODUCT_REPOSITORY_PUBLIC}/pulls \
+          POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
           -H "Authorization: Bearer "${{ secrets.PAT }}"" \
           -H "Content-Type: application/json" \
-          -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${GIT_USERNAME}:${DEPENDENCY_UPGRADE_BRANCH_NAME}"'","base":"master"}')
+          -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ secrets.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"master"}')
       - name: Google Chat Notification
         uses: Co-qn/google-chat-notification@releases/v1
         with:
