@@ -80,14 +80,20 @@ jobs:
         run: |
           git clean -f -d
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-            token: ${{ secrets.PAT }}
-            commit-message: Bump dependencies from IS_dependency_updater_github_action/${{github.run_id}}
-            title: Bump Dependencies - ${{github.run_id}}
-            body: |
-              - Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater-test/actions/runs/${{github.run_id}} https://github.com/wso2/product-is/actions/runs/${{github.run_id}}
-            branch: IS_dependency_updater_github_action/${{github.run_id}}
+        run: |
+          REPOSITORY=dependency-updater
+          PRODUCT_REPOSITORY_PUBLIC=AnuradhaSK/$REPOSITORY
+          BUILD_NUMBER=${{github.run_id}}
+          DEPENDENCY_UPGRADE_BRANCH_NAME=$(echo IS_dependency_updater_github_action/$BUILD_NUMBER)
+          PRODUCT_REPOSITORY_PUBLIC
+          git config --global user.name ${{ secrets.GIT_USERNAME}}
+          git commit -a -m 'Bump dependencies from '$DEPENDENCY_UPGRADE_BRANCH_NAME
+          TITLE="Bump Dependencies #"$BUILD_NUMBER
+          STATUS=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -k -X \
+          POST https://api.github.com/repos/${PRODUCT_REPOSITORY_PUBLIC}/pulls \
+          -H "Authorization: Bearer "${{ secrets.PAT }}"" \
+          -H "Content-Type: application/json" \
+          -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${GIT_USERNAME}:${DEPENDENCY_UPGRADE_BRANCH_NAME}"'","base":"master"}')
       - name: Google Chat Notification
         uses: Co-qn/google-chat-notification@releases/v1
         with:
