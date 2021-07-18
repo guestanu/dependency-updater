@@ -67,7 +67,7 @@ jobs:
             echo ""
             echo 'Checking out:' ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }} 'master branch'
             echo "=========================================================="
-            git checkout -b ${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }} ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}'/master'
+            git checkout -b ${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }} ${{ env.REMOTE_PRODUCT_REPOSITORY_PUBLIC }}'/main'
             mvn versions:use-latest-versions -DgenerateBackupPoms=false -Dincludes=org.wso2.carbon.identity.*,org.wso2.carbon.extension.identity.*,org.wso2.charon,org.apache.rampart.wso2,org.apache.ws.security.wso2,org.wso2.carbon.consent.*,org.wso2.carbon.database.utils -U
       - name: Show Dependency Updates
         run: |
@@ -126,7 +126,7 @@ jobs:
           POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
           -H "Authorization: Bearer "${{ secrets.PAT }}"" \
           -H "Content-Type: application/json" \
-          -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ secrets.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"master"}')
+          -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ secrets.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
       - name: Google Chat Notification
         uses: Co-qn/google-chat-notification@releases/v1
         with:
