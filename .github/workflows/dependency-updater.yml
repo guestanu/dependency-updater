@@ -85,7 +85,6 @@ jobs:
           PRODUCT_REPOSITORY_PUBLIC=AnuradhaSK/$REPOSITORY
           BUILD_NUMBER=${{github.run_id}}
           DEPENDENCY_UPGRADE_BRANCH_NAME=$(echo IS_dependency_updater_github_action/$BUILD_NUMBER)
-          PRODUCT_REPOSITORY_PUBLIC
           git config --global user.name ${{ secrets.GIT_USERNAME}}
           git commit -a -m 'Bump dependencies from '$DEPENDENCY_UPGRADE_BRANCH_NAME
           TITLE="Bump Dependencies #"$BUILD_NUMBER
