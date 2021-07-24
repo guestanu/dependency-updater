@@ -8,12 +8,12 @@ on:
 env:
   MAVEN_OPTS: -Xmx4g -Xms1g
   REPOSITORY: dependency-updater
-  PRODUCT_REPOSITORY_FORKED: ${{ secrets.GIT_USERNAME }}'/'${REPOSITORY}
+  GIT_USERNAME: guestanu
+  PRODUCT_REPOSITORY_FORKED: $GIT_USERNAME'/'${REPOSITORY}
   REMOTE_PRODUCT_REPOSITORY_PUBLIC: AnuradhaSK/$REPOSITORY
   PRODUCT_REPOSITORY_PUBLIC: AnuradhaSK/$REPOSITORY
   BUILD_NUMBER: ${{github.run_id}}
   DEPENDENCY_UPGRADE_BRANCH_NAME: IS_dependency_updater_github_action/$BUILD_NUMBER
-  GIT_USERNAME: guestanu
   
 jobs:
   build:
@@ -132,7 +132,7 @@ jobs:
             POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
             -H "Authorization: Bearer "${{ secrets.PAT }}"" \
             -H "Content-Type: application/json" \
-            -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ secrets.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
+            -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
       - name: Archive dependency diff file 
         if: always()
         uses: actions/upload-artifact@v2
