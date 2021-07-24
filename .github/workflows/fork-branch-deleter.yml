@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     # Check whether the PR was authored by jenkins-is-staging'
-    if: github.event.pull_request.head.repo.owner.login == 'AnuradhaSK'
+    if: github.event.pull_request.head.repo.owner.login == 'guestanu'
     # if: github.event.pull_request.head.repo.owner.login == 'jenkins-is-staging'
     runs-on: ubuntu-latest
 
