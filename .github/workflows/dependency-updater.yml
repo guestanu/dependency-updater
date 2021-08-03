@@ -108,7 +108,6 @@ jobs:
               exit 1
             fi
             
-            cd ${REPOSITORY}
             if [ -s dependency_updates.diff ]
             then
               echo ""
