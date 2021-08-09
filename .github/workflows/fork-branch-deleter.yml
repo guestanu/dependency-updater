@@ -1,28 +1,26 @@
 # This workflow will delete the respective fork branch when a PR authored by 'jenkins-is-staging' is merged/closed.
-
 name: Fork Branch Deleter
 
 on:
   pull_request:
     types: [ closed ]
+
+  # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   build:
-    # Check whether the PR was authored by jenkins-is-staging'
+    # Check whether the PR was authored by 'wso2-jenkins-bot'
     if: github.event.pull_request.head.repo.owner.login == 'guestanu'
-    # if: github.event.pull_request.head.repo.owner.login == 'jenkins-is-staging'
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the asgardeo-product fork of 'jenkins-is-staging' user
+      # Check out the asgardeo-product fork of 'wso2-jenkins-bot' user
       - uses: actions/checkout@v2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           token: ${{ secrets.PAT }}
-          
-      - name: Owner
-        run: echo ${{ github.event.pull_request.head.repo.owner.login }}
+
       - name: Delete Fork Branch of wso2-jenkins-bot
         run: git push -d origin ${{ github.event.pull_request.head.ref }}
         
