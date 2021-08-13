@@ -10,8 +10,8 @@ env:
   REPOSITORY: dependency-updater
   GIT_USERNAME: guestanu
   PRODUCT_REPOSITORY_FORKED: $GIT_USERNAME'/'${REPOSITORY}
-  REMOTE_PRODUCT_REPOSITORY_PUBLIC: AnuradhaSK/$REPOSITORY
-  PRODUCT_REPOSITORY_PUBLIC: AnuradhaSK/$REPOSITORY
+  REMOTE_PRODUCT_REPOSITORY_PUBLIC: AnuDepTest/$REPOSITORY
+  PRODUCT_REPOSITORY_PUBLIC: AnuDepTest/$REPOSITORY
   BUILD_NUMBER: ${{github.run_id}}
   DEPENDENCY_UPGRADE_BRANCH_NAME: IS_dependency_updater_github_action/$BUILD_NUMBER
   
@@ -132,7 +132,7 @@ jobs:
               POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
               -H "Authorization: Bearer "${{ secrets.PAT }}"" \
               -H "Content-Type: application/json" \
-              -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuradhaSK/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
+              -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
             else
               echo ""
               echo "There are no dependency updates available"
