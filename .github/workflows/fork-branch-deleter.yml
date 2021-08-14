@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-          token: ${{ secrets.PAT }}
+          token: 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
 
       - name: Delete Fork Branch of wso2-jenkins-bot
         run: git push -d origin ${{ github.event.pull_request.head.ref }}
