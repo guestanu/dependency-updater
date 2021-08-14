@@ -2027,7 +2027,7 @@
 
         <!--Carbon Identity Framework Version-->
         <carbon.identity.framework.version>5.20.102</carbon.identity.framework.version>
-	<identity.framework.version>5.20.139</identity.framework.version>
+	<identity.framework.version>5.20.150</identity.framework.version>
         <carbon.identity.framework.version.range>[5.14.67, 6.0.0]</carbon.identity.framework.version.range>
 
         <!--SAML Common Utils Version-->
@@ -2038,7 +2038,7 @@
         <carbon.consent.mgt.version>2.3.7</carbon.consent.mgt.version>
 
         <!--Identity Governance Version-->
-        <identity.governance.version>1.5.27</identity.governance.version>
+        <identity.governance.version>1.5.31</identity.governance.version>
 
         <!--Identity Carbon Versions-->
         <identity.carbon.auth.saml2.version>5.5.4</identity.carbon.auth.saml2.version>
@@ -2049,7 +2049,7 @@
 
         <!-- Identity Inbound Versions   -->
         <identity.inbound.auth.saml.version>5.8.41</identity.inbound.auth.saml.version>
-        <identity.inbound.auth.oauth.version>6.7.16</identity.inbound.auth.oauth.version>
+        <identity.inbound.auth.oauth.version>6.7.22</identity.inbound.auth.oauth.version>
         <identity.inbound.auth.openid.version>5.6.2</identity.inbound.auth.openid.version>
         <identity.inbound.auth.sts.version>5.6.13</identity.inbound.auth.sts.version>
         <identity.inbound.provisioning.scim.version>5.6.8</identity.inbound.provisioning.scim.version>
@@ -2075,8 +2075,8 @@
         <identity.data.publisher.audit.version>1.3.4</identity.data.publisher.audit.version>
 
         <!-- Identity Event Handler Versions -->
-        <identity.event.handler.account.lock.version>1.4.27</identity.event.handler.account.lock.version>
-        <identity.event.handler.notification.version>1.3.22</identity.event.handler.notification.version>
+        <identity.event.handler.account.lock.version>1.4.28</identity.event.handler.account.lock.version>
+        <identity.event.handler.notification.version>1.3.23</identity.event.handler.notification.version>
 
         <!--<identity.agent.entitlement.proxy.version>5.1.1</identity.agent.entitlement.proxy.version>-->
         <!--<identity.carbon.auth.signedjwt.version>5.1.1</identity.carbon.auth.signedjwt.version>-->
@@ -2097,7 +2097,7 @@
         <!-- Social Authenticator Versions -->
         <social.authenticator.facebook.version>5.1.21</social.authenticator.facebook.version>
         <social.authenticator.google.version>5.1.13</social.authenticator.google.version>
-        <social.authenticator.windowslive.version>5.1.6</social.authenticator.windowslive.version>
+        <social.authenticator.windowslive.version>5.1.7</social.authenticator.windowslive.version>
         <social.authenticator.yahoo.version>5.1.9</social.authenticator.yahoo.version>
 
         <!-- Provisioning connector Versions -->
@@ -2106,8 +2106,8 @@
         <provisioning.connector.scim.version>5.2.7</provisioning.connector.scim.version>
 
         <!-- Local Authenticator Versions -->
-        <identity.local.auth.basicauth.version>6.3.41</identity.local.auth.basicauth.version>
-        <identity.local.auth.fido.version>5.3.5</identity.local.auth.fido.version>
+        <identity.local.auth.basicauth.version>6.3.42</identity.local.auth.basicauth.version>
+        <identity.local.auth.fido.version>5.3.6</identity.local.auth.fido.version>
         <identity.local.auth.iwa.version>5.3.16</identity.local.auth.iwa.version>
 
         <!-- Local Authentication API Connector Version -->
@@ -2143,7 +2143,7 @@
         <carbon.identity.oauth.uma.version>1.3.7</carbon.identity.oauth.uma.version>
 
         <!-- Identity Portal Versions -->
-        <identity.apps.version>1.2.410</identity.apps.version>
+        <identity.apps.version>1.2.432</identity.apps.version>
 
         <!-- Charon -->
         <charon.version>3.4.1</charon.version>
