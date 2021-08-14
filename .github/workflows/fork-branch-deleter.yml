@@ -2,7 +2,7 @@
 name: Fork Branch Deleter
 
 on:
-  pull_request:
+  pull_request_target:
     types: [ closed ]
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-          token: ${{ secrets.GUEST_ANU_TOKEN  || github.token}}
+          token: ${{ secrets.GUEST_ANU_TOKEN }}
 
       - name: Delete Fork Branch of wso2-jenkins-bot
         run: git push -d origin ${{ github.event.pull_request.head.ref }}
