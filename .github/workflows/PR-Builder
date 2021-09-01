@@ -1,0 +1,75 @@
+name: Product-is builder
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Enter PR link (ex: https://github.com/wso2-extensions/identity-inbound-auth-oauth/pull/1481)"
+        required: true
+
+jobs:   
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MY_ACCESS_TOKEN: ${{ secrets.PAT }}
+      PRODUCT_IS_REPO_PATH: /home/runner/Desktop/asgardeo_packs_autogen/product-is/modules/distribution/target
+      ASGARDEO_PRODUCT_REPO_DIR: /home/runner/Desktop/asgardeo_packs_autogen/asgardeo-product
+      
+    steps:
+    
+    - name: Print Input
+      run: echo Running the PR builder for PR - ${{ github.event.inputs.pr }}
+
+    - name: Seup ENV
+      run: |
+        echo "owner=$(echo '${{github.event.inputs.pr}}' | cut -d "/" -f 4)" >> $GITHUB_ENV
+        echo "repo=$(echo '${{github.event.inputs.pr}}' | cut -d "/" -f 5)" >> $GITHUB_ENV
+        echo "pr_number=$(echo '${{github.event.inputs.pr}}' | cut -d "/" -f 7)" >> $GITHUB_ENV
+
+    - name: Set up JDK 1.8 and node
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4
+      with:
+        maven-version: 3.6.3
+
+    - name: Build init
+      run: |
+        wget -c https://raw.githubusercontent.com/wso2/product-is/master/pom.xml -O cache-key-file.xml
+        
+    - name: Cache maven packages
+      id: cache-maven-m2
+      uses: actions/cache@v2
+      with:
+       path: |
+         ~/.m2
+         !~/.m2/repository/org/wso2/is/wso2is/
+       key: ${{ runner.os }}-pr-builder-${{ hashFiles('cache-key-file.xml') }}
+       restore-keys: |
+         ${{ runner.os }}-pr-builder-
+         ${{ runner.os }}-pr-builder
+         
+    - name: Create asgardeo_packs_autogen directory
+      run: mkdir -p "$HOME/Desktop/asgardeo_packs_autogen"
+      
+    - name: Run PR builder for product-is PRs
+      id: builder_step
+      env:
+        PR_LINK: ${{github.event.inputs.pr}}
+      run: |
+        cd $HOME/Desktop/asgardeo_packs_autogen
+        wget https://raw.githubusercontent.com/wso2/product-is/master/.github/scripts/pr-builder.sh
+        bash pr-builder.sh
+
+#    - name: Approve PR
+#      if: success()
+#      run: |
+#        curl -X POST https://api.github.com/repos/${{env.owner}}/${{env.repo}}/pulls/${{env.pr_number}}/reviews -H 'Authorization:token ${{secrets.ASGARDEO_REPO_TOKEN}}' -d '{"body":"Approving the pull request based on the successful PR build","event":"APPROVE"}'
