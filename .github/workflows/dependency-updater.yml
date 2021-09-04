@@ -155,9 +155,6 @@ jobs:
             ${{steps.builder_step.outputs.REPO_NAME}}/mvn-build.log
           if-no-files-found: warn
       - name: Google Chat Notification
-        uses: Co-qn/google-chat-notification@releases/v1
-        with:
-          name: Dependency Updater
-          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater
-          status: ${{ job.status }}
+        run: |
+          "curl -H 'Content-Type: application/json' -X POST ${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater --data '{"text": "hi there"}"
         if: always()
