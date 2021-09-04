@@ -156,7 +156,8 @@ jobs:
           if-no-files-found: warn
       - name: Google Chat Notification
         run: |
-          statusColor=""
+          
+          statusColor = ""
           if [ ${{ job.status }} == "success" ];then
               statusColor = "#009944"
           elif [ "${{ job.status }} == "failed" ];then
