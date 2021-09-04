@@ -133,10 +133,12 @@ jobs:
               -H "Authorization: Bearer "${{ secrets.PAT }}"" \
               -H "Content-Type: application/json" \
               -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
-              RES_BODY=${RESPONSE::-3}
-              echo $RES_BODY
+              RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
-              echo $STATUS
+              if [[ $STATUS == "201" ]]; then
+                 PR=$(echo $RESPONSE_BODY | jq -r '.url')
+                 echo $PR
+              fi
             else
               echo ""
               echo "There are no dependency updates available"
