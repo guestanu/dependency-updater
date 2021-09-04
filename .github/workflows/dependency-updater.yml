@@ -156,5 +156,65 @@ jobs:
           if-no-files-found: warn
       - name: Google Chat Notification
         run: |
-          "curl -H 'Content-Type: application/json' -X POST ${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater --data '{"text": "hi there"}'"
+          curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+              "cards": [
+                  {
+                      "header": {
+                          "title": "Dependency Updater",
+                          "subtitle": "Github Action #1201237205"
+                      },
+                      "sections": [
+                          {
+                              "widgets": [
+                                  {
+                                      "textParagraph": {
+                                          "text": "Status: <br><b><font color=\"#ff0000\">Failed</font></b></br>"
+                                      }
+                                  },
+                                  {
+                                      "textParagraph": {
+                                          "text": "Build Job:"
+                                      }
+                                  },
+                                  {
+                                      "buttons": [
+                                          {
+                                              "textButton": {
+                                                  "text": "Dependency Updater Build",
+                                                  "onClick": {
+                                                      "openLink": {
+                                                          "url": "https://github.com/AnuDepTest/dependency-updater/actions/runs/1201237205"
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  },
+                                                          {
+                                      "textParagraph": {
+                                          "text": "Pull Request:"
+                                      }
+                                  },
+                                  {
+                                      "buttons": [
+                                          {
+                                              "textButton": {
+                                                  "text": "Generated Pull Request",
+                                                  "onClick": {
+                                                      "openLink": {
+                                                          "url": "https://github.com/AnuDepTest/dependency-updater/pull/103"
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          }'
         if: always()
