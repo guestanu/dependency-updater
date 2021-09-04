@@ -158,6 +158,7 @@ jobs:
         run: |
           STATUS_COLOR=$(if [[ ${{ job.status }} == "success" ]];then echo "#009944"; elif [[ ${{ job.status }} = "failed" ]];then echo "#ff0000"; 
           elif [[ ${{ job.status }} = "cancelled" ]];then echo "#ffea00"; fi) 
+          echo $STATUS_COLOR
         
           curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
           --header 'Content-Type: application/json' \
