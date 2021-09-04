@@ -165,7 +165,7 @@ jobs:
           elif [ ${{ job.status }} == "cancelled" ];then    
               statusColor = "#ffea00"
           fi 
-          
+        
           curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
           --header 'Content-Type: application/json' \
           --data-raw '{
@@ -180,7 +180,7 @@ jobs:
                               "widgets": [
                                   {
                                       "textParagraph": {
-                                          "text": "Status: <br><b><font color=/"${{ statusColor }}/">${{ job.status }}</font></b></br>"
+                                          "text": "Status: <br><b><font color=/"#009944/">${{ job.status }}</font></b></br>"
                                       }
                                   },
                                   {
