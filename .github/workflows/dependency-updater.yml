@@ -215,7 +215,7 @@ jobs:
                                                   "text": "Generated Pull Request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "'${PR}'"
+                                                          "url": "${PR}"
                                                       }
                                                   }
                                               }
