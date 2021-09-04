@@ -159,7 +159,7 @@ jobs:
           statusColor=""
           if [ ${{ job.status }} == "success" ];then
               statusColor = "#009944"
-          elif [ "${{ job.status }} == "Failed" ];then
+          elif [ "${{ job.status }} == "failed" ];then
               statusColor = "#ff0000"
           elif [ ${{ job.status }} == "cancelled" ];then    
               statusColor = "#ffea00"
@@ -179,7 +179,7 @@ jobs:
                               "widgets": [
                                   {
                                       "textParagraph": {
-                                          "text": "Status: <br><b><font color=\""${statusColor}"\">${{ job.status }}</font></b></br>"
+                                          "text": "Status: <br><b><font color="'"${statusColor}"'">${{ job.status }}</font></b></br>"
                                       }
                                   },
                                   {
