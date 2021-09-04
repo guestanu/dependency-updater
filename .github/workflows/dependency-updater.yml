@@ -129,10 +129,11 @@ jobs:
 
               TITLE="Bump Dependencies #"${{ env.BUILD_NUMBER }}
               STATUS=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -k -X \
-              POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
+              RESPONSE=$(POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
               -H "Authorization: Bearer "${{ secrets.PAT }}"" \
               -H "Content-Type: application/json" \
-              -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
+              -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}'))
+              echo $RESPONSE
             else
               echo ""
               echo "There are no dependency updates available"
