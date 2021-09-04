@@ -129,10 +129,11 @@ jobs:
 
               TITLE="Bump Dependencies #"${{ env.BUILD_NUMBER }}
               STATUS=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -k -X \
-              POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
+              Response=$(POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
               -H "Authorization: Bearer "${{ secrets.PAT }}"" \
               -H "Content-Type: application/json" \
-              -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
+              -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}'))
+              echo Response
             else
               echo ""
               echo "There are no dependency updates available"
@@ -156,6 +157,14 @@ jobs:
           if-no-files-found: warn
       - name: Google Chat Notification
         run: |
+          statusColor=""
+          if [ ${{ job.status }} != "Succeeded" ];then
+              statusColor = #009944
+          elif [ ${{ job.status }} != "Failed" ];then
+              statusColor = #ff0000
+          elif [ ${{ job.status }} != "Cancelled" ];then    
+              statusColor = #ffea00
+          fi 
           curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
           --header 'Content-Type: application/json' \
           --data-raw '{
@@ -163,14 +172,14 @@ jobs:
                   {
                       "header": {
                           "title": "Dependency Updater",
-                          "subtitle": "Github Action #1201237205"
+                          "subtitle": "Github Action #${{ env.BUILD_NUMBER }}"
                       },
                       "sections": [
                           {
                               "widgets": [
                                   {
                                       "textParagraph": {
-                                          "text": "Status: <br><b><font color=\"#ff0000\">Failed</font></b></br>"
+                                          "text": "Status: <br><b><font color=\"${statusColor}\">${{ job.status }}</font></b></br>"
                                       }
                                   },
                                   {
@@ -185,7 +194,7 @@ jobs:
                                                   "text": "Dependency Updater Build",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "https://github.com/AnuDepTest/dependency-updater/actions/runs/1201237205"
+                                                          "url": "https://github.com/AnuDepTest/dependency-updater/actions/runs/${{ env.BUILD_NUMBER }}"
                                                       }
                                                   }
                                               }
