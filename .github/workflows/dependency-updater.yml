@@ -158,11 +158,11 @@ jobs:
         run: |
           
           statusColor = ""
-          if [ ${{ job.status }} == "success" ];then
+          if [ ${{ job.status }} = "success" ];then
               statusColor = "#009944"
-          elif [ "${{ job.status }} == "failed" ];then
+          elif [ "${{ job.status }} = "failed" ];then
               statusColor = "#ff0000"
-          elif [ ${{ job.status }} == "cancelled" ];then    
+          elif [ ${{ job.status }} = "cancelled" ];then    
               statusColor = "#ffea00"
           fi 
         
