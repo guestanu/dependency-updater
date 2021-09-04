@@ -156,7 +156,9 @@ jobs:
           if-no-files-found: warn
       - name: Google Chat Notification
         run: |
-          STATUS_COLOR=$(if [[ ${{ job.status }} == "success" ]];then echo "#009944"; elif [[ ${{ job.status }} = "failed" ]];then echo "#ff0000"; elif [[ ${{ job.status }} = "cancelled" ]];then echo "#ffff00"; fi) 
+          STATUS_COLOR=$(if [[ ${{ job.status }} == "success" ]];then echo "#009944"; 
+          elif [[ ${{ job.status }} = "failed" ]];then echo "#ff0000"; 
+          elif [[ ${{ job.status }} = "cancelled" ]];then echo "#ffc300"; fi) 
         
           curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
           --header 'Content-Type: application/json' \
