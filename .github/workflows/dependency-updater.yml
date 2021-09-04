@@ -128,12 +128,14 @@ jobs:
               echo "=========================================================="
 
               TITLE="Bump Dependencies #"${{ env.BUILD_NUMBER }}
-              RESPONSE=$(curl -k -X \
+              RESPONSE=$(curl -s -w "%{http_code}" -k -X \
               POST https://api.github.com/repos/${{ env.PRODUCT_REPOSITORY_PUBLIC }}/pulls \
               -H "Authorization: Bearer "${{ secrets.PAT }}"" \
               -H "Content-Type: application/json" \
               -d '{ "title": "'"${TITLE}"'","body": "Bumps dependencies for product-is. Link : https://github.com/AnuDepTest/dependency-updater/actions/runs/${{github.run_id}}","head": "'"${{ env.GIT_USERNAME }}:${{ env.DEPENDENCY_UPGRADE_BRANCH_NAME }}"'","base":"main"}')
               echo $RESPONSE
+              RES_BODY=${RESPONSE::-3}
+              STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
             else
               echo ""
               echo "There are no dependency updates available"
