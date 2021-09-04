@@ -136,7 +136,7 @@ jobs:
               RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
-                 PR=$(echo $RESPONSE_BODY | jq -r '.url')
+                 PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
                  echo $PR
               fi
             else
@@ -164,7 +164,8 @@ jobs:
         run: |
           STATUS_COLOR=$(if [[ ${{ job.status }} == "success" ]];then echo "#009944"; 
           elif [[ ${{ job.status }} = "failure" ]];then echo "#ff0000"; 
-          elif [[ ${{ job.status }} = "cancelled" ]];then echo "#ffc300"; fi) 
+          elif [[ ${{ job.status }} = "cancelled" ]];then echo "#ffc300"; fi)
+          
         
           curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
           --header 'Content-Type: application/json' \
@@ -214,7 +215,7 @@ jobs:
                                                   "text": "Generated Pull Request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "https://github.com/AnuDepTest/dependency-updater/pull/103"
+                                                          "url": "'${PR}'"
                                                       }
                                                   }
                                               }
