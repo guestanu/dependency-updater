@@ -157,7 +157,6 @@ jobs:
       - name: Google Chat Notification
         run: |
           STATUS_COLOR=$(if [[ ${{ job.status }} == "success" ]];then echo "#009944"; elif [[ ${{ job.status }} = "failed" ]];then echo "#ff0000"; elif [[ ${{ job.status }} = "cancelled" ]];then echo "#ffea00"; fi) 
-          $STATUS_COLOR
         
           curl --location --request POST '${{ secrets.GOOGLE_CHAT_WEBHOOK }}&threadKey=dep_updater' \
           --header 'Content-Type: application/json' \
@@ -173,7 +172,7 @@ jobs:
                               "widgets": [
                                   {
                                       "textParagraph": {
-                                          "text": "Status: <br><b><font color=\"$STATUS_COLOR\">${{ job.status }}</font></b></br>"
+                                          "text": "Status: <br><b><font color=\"$STATUS_COLOR\">${{ job.status }} $$STATUS_COLOR</font></b></br>"
                                       }
                                   },
                                   {
