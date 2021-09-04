@@ -172,7 +172,7 @@ jobs:
                               "widgets": [
                                   {
                                       "textParagraph": {
-                                          "text": "Status: <br><b><font color=\"${STATUS_COLOR}\">${{ job.status }} ${STATUS_COLOR}</font></b></br>"
+                                          "text": "Status: <br><b><font color="'"${STATUS_COLOR}"'">${{ job.status }}</font></b></br>"
                                       }
                                   },
                                   {
