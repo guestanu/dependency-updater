@@ -14,6 +14,7 @@ env:
   PRODUCT_REPOSITORY_PUBLIC: AnuDepTest/$REPOSITORY
   BUILD_NUMBER: ${{github.run_id}}
   DEPENDENCY_UPGRADE_BRANCH_NAME: IS_dependency_updater_github_action/$BUILD_NUMBER
+  PR: ""
   
 jobs:
   build:
@@ -136,8 +137,7 @@ jobs:
               RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
-                 export PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
-                 echo "::set-env name PR::$PR"
+                 PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
               fi
             else
               echo ""
