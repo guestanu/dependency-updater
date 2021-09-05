@@ -14,6 +14,7 @@ env:
   PRODUCT_REPOSITORY_PUBLIC: AnuDepTest/$REPOSITORY
   BUILD_NUMBER: ${{github.run_id}}
   DEPENDENCY_UPGRADE_BRANCH_NAME: IS_dependency_updater_github_action/$BUILD_NUMBER
+  PR: "https://github.com/wso2/product-is/pulls"
   
 jobs:
   build:
@@ -136,9 +137,7 @@ jobs:
               RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
-                 $(echo $RESPONSE_BODY | jq -r '.html_url') >> PR
-              else
-                  "https://github.com/wso2/product-is/pulls" >> PR
+                 PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
               fi
             else
               echo ""
@@ -146,6 +145,8 @@ jobs:
               echo "=========================================================="
               exit 0
             fi
+        env:
+          PR: $PR
       - name: Archive dependency diff file 
         if: always()
         uses: actions/upload-artifact@v2
@@ -216,7 +217,7 @@ jobs:
                                                   "text": "Generated Pull Request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "'${PR}'"
+                                                          "url": "'${{ env.PR }}'"
                                                       }
                                                   }
                                               }
