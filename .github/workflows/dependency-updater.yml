@@ -137,7 +137,7 @@ jobs:
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
                  $(echo $RESPONSE_BODY | jq -r '.html_url') >> PR
-              else;
+              else
                   "https://github.com/wso2/product-is/pulls" >> PR
               fi
             else
