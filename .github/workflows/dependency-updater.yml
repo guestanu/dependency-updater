@@ -14,7 +14,6 @@ env:
   PRODUCT_REPOSITORY_PUBLIC: AnuDepTest/$REPOSITORY
   BUILD_NUMBER: ${{github.run_id}}
   DEPENDENCY_UPGRADE_BRANCH_NAME: IS_dependency_updater_github_action/$BUILD_NUMBER
-  PR: ""
   
 jobs:
   build:
@@ -137,7 +136,9 @@ jobs:
               RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
-                 PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
+                 $(echo $RESPONSE_BODY | jq -r '.html_url') >> PR
+              else;
+                  "https://github.com/wso2/product-is/pulls" >> PR
               fi
             else
               echo ""
@@ -215,7 +216,7 @@ jobs:
                                                   "text": "Generated Pull Request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "${{ env.PR }}"
+                                                          "url": "'${PR}'"
                                                       }
                                                   }
                                               }
