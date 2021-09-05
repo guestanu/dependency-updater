@@ -146,7 +146,7 @@ jobs:
               exit 0
             fi
         env:
-          PR: $PR
+          PR: echo $PR
       - name: Archive dependency diff file 
         if: always()
         uses: actions/upload-artifact@v2
