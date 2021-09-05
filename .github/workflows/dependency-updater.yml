@@ -137,7 +137,7 @@ jobs:
               RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
-                 PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
+                 echo "PR=$(echo $RESPONSE_BODY | jq -r '.html_url')" >> $GITHUB_ENV
               fi
             else
               echo ""
@@ -145,8 +145,6 @@ jobs:
               echo "=========================================================="
               exit 0
             fi
-        env:
-          PR: echo $PR
       - name: Archive dependency diff file 
         if: always()
         uses: actions/upload-artifact@v2
