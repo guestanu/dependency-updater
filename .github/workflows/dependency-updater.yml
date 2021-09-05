@@ -212,7 +212,7 @@ jobs:
                                       "buttons": [
                                           {
                                               "textButton": {
-                                                  "text": "Generated Pull Request",
+                                                  "text": "View",
                                                   "onClick": {
                                                       "openLink": {
                                                           "url": "'${{ env.PR }}'"
