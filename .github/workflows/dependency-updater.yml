@@ -185,42 +185,40 @@ jobs:
                                       }
                                   },
                                   {
-                                      "textParagraph": {
-                                          "text": "Build Job:"
-                                      }
-                                  },
-                                  {
-                                      "buttons": [
-                                          {
+                                     "keyValue": {
+                                          "topLabel": "Build Job:",
+                                          "content": "GitHub Action ${{ env.BUILD_NUMBER }}",
+                                          "contentMultiline": "false",
+                                          "bottomLabel": "",
+                                          "button": {
                                               "textButton": {
-                                                  "text": "Dependency Updater Build",
-                                                  "onClick": {
-                                                      "openLink": {
+                                                "text": "VIEW",
+                                                "onClick": {
+                                                    "openLink": {
                                                           "url": "https://github.com/AnuDepTest/dependency-updater/actions/runs/${{ env.BUILD_NUMBER }}"
                                                       }
                                                   }
-                                              }
+                                                }
                                           }
-                                      ]
-                                  },
-                                                          {
-                                      "textParagraph": {
-                                          "text": "Pull Request:"
-                                      }
+                                     }
                                   },
                                   {
-                                      "buttons": [
-                                          {
+                                     "keyValue": {
+                                          "topLabel": "Pull Request:",
+                                          "content": "Check PR",
+                                          "contentMultiline": "false",
+                                          "bottomLabel": "",
+                                          "button": {
                                               "textButton": {
-                                                  "text": "View",
-                                                  "onClick": {
-                                                      "openLink": {
+                                                "text": "VIEW",
+                                                "onClick": {
+                                                    "openLink": {
                                                           "url": "'${{ env.PR }}'"
                                                       }
                                                   }
-                                              }
+                                                }
                                           }
-                                      ]
+                                     }
                                   }
                               ]
                           }
