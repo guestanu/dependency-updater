@@ -136,8 +136,8 @@ jobs:
               RESPONSE_BODY=${RESPONSE::-3}
               STATUS=$(printf "%s" "$RESPONSE" | tail -c 3)
               if [[ $STATUS == "201" ]]; then
-                 PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
-                 echo $PR
+                 export PR=$(echo $RESPONSE_BODY | jq -r '.html_url')
+                 echo "::set-env name PR::$PR"
               fi
             else
               echo ""
@@ -215,7 +215,7 @@ jobs:
                                                   "text": "Generated Pull Request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "${PR}"
+                                                          "url": "$PR"
                                                       }
                                                   }
                                               }
