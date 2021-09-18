@@ -35,13 +35,37 @@ jobs:
                                       "textParagraph": {
                                           "text": "<b>Creator:</b> <br>${{ github.event.issue.user.login }}</br>
                                           <br><b>Title:</b></br> <br>${{ github.event.issue.title }}</br>
-                                          <br><b>Assigned</br> Lables:</b> <br><font color='"#fffff"'>${{ join(github.event.issue.labels.*.name) }}</font></br>
+                                          <br><b>Assigned Lables:</b></br> <br><font color='"#fffff"'>${{ join(github.event.issue.labels.*.name) }}</font></br>
                                           <br><b>Assignees:</b></br> <br>${{ join(github.event.issue.assignees.*.login) }}</br>"
                                       }
                                   },
                                   {
                                      "keyValue": {
-                                          "topLabel": "Check Issue:",
+                                          "topLabel": "Creator",
+                                          "content": "${{ github.event.issue.user.login }}"
+                                      }
+                                   },
+                                   {
+                                     "keyValue": {
+                                          "topLabel": "Title",
+                                          "content": "${{ github.event.issue.title }}"
+                                      }
+                                   },
+                                   {
+                                     "keyValue": {
+                                          "topLabel": "Assigned Lables",
+                                          "content": "${{ join(github.event.issue.labels.*.name) }}"
+                                      }
+                                   },
+                                  {
+                                     "keyValue": {
+                                          "topLabel": "Assignees",
+                                          "content": "${{ join(github.event.issue.assignees.*.login) }}"
+                                      }
+                                   },
+                                  {
+                                     "keyValue": {
+                                          "topLabel": "",
                                           "content": "Issue URL:",
                                           "contentMultiline": "false",
                                           "bottomLabel": "",
