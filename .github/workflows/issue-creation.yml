@@ -15,5 +15,5 @@ jobs:
           echo "Issue body: ${{ github.event.issue.body }}"
           echo "Issue number: ${{ github.event.issue.number }}"
           echo "Issue url: ${{ github.event.issue.html_url }}"
-          echo ${{ github.event.issue.labels.*.name }}
-          echo ${{ github.event.issue.assignees.*.login }}
+          echo ${{ join(github.event.issue.labels.*.name) }}
+          echo ${{ join(github.event.issue.assignees.*.login) }}
