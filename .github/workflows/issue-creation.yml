@@ -32,14 +32,6 @@ jobs:
                           {
                               "widgets": [
                                   {
-                                      "textParagraph": {
-                                          "text": "<b>Creator:</b> <br>${{ github.event.issue.user.login }}</br>
-                                          <br><b>Title:</b></br> <br>${{ github.event.issue.title }}</br>
-                                          <br><b>Assigned Lables:</b></br> <br><font color='"#fffff"'>${{ join(github.event.issue.labels.*.name) }}</font></br>
-                                          <br><b>Assignees:</b></br> <br>${{ join(github.event.issue.assignees.*.login) }}</br>"
-                                      }
-                                  },
-                                  {
                                      "keyValue": {
                                           "topLabel": "Creator",
                                           "content": "${{ github.event.issue.user.login }}"
@@ -57,21 +49,18 @@ jobs:
                                           "content": "${{ join(github.event.issue.labels.*.name) }}"
                                       }
                                    },
-                                  {
+                                   {
                                      "keyValue": {
                                           "topLabel": "Assignees",
                                           "content": "${{ join(github.event.issue.assignees.*.login) }}"
                                       }
                                    },
-                                  {
+                                   {
                                      "keyValue": {
-                                          "topLabel": "",
                                           "content": "Issue URL:",
-                                          "contentMultiline": "false",
-                                          "bottomLabel": "",
                                           "button": {
                                               "textButton": {
-                                                "text": "VIEW",
+                                                "text": "CHECK",
                                                 "onClick": {
                                                     "openLink": {
                                                           "url": "${{ github.event.issue.html_url }}"
