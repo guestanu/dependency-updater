@@ -15,5 +15,5 @@ jobs:
           echo "Issue body: ${{ github.event.issue.body }}"
           echo "Issue number: ${{ github.event.issue.number }}"
           echo "Issue url: ${{ github.event.issue.html_url }}"
-          echo "Issue labels: " echo ${{ github.event.issue }} | jq '.labels[] .name'
+          echo "Issue labels: " echo ${{ github.event.issue }} | jq '.labels[0] .name'
           echo "Issue assgine: ${{ github.event.issue.assignees.login }}"
