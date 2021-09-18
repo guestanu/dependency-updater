@@ -56,20 +56,19 @@ jobs:
                                       }
                                    },
                                    {
-                                     "keyValue": {
-                                          "content": "Issue URL:",
-                                          "button": {
-                                              "textButton": {
-                                                "text": "CHECK",
-                                                "onClick": {
-                                                    "openLink": {
-                                                          "url": "${{ github.event.issue.html_url }}"
-                                                      }
-                                                 }
-                                               }
-                                           }
-                                      }
-                                   }
+                                      "buttons": [
+                                        {
+                                          "textButton": {
+                                            "text": "OPEN ISSUE",
+                                            "onClick": {
+                                              "openLink": {
+                                                "url": "${{ github.event.issue.html_url }}"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
                               ]
                           }
                       ]
