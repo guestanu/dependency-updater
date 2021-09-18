@@ -48,7 +48,7 @@ jobs:
                                                 "text": "VIEW",
                                                 "onClick": {
                                                     "openLink": {
-                                                          "url": ${{ github.event.issue.html_url }}
+                                                          "url": "${{ github.event.issue.html_url }}"
                                                       }
                                                  }
                                                }
