@@ -10,6 +10,10 @@ jobs:
     steps:
     - name: Google Chat Notification
       run: |
+          echo "Issue creator: ${{ github.event.issue.user.login }}"
           echo "Issue title: ${{ github.event.issue.title }}"
           echo "Issue body: ${{ github.event.issue.body }}"
-          echo "Issue labels: ${{ github.event.issue.labels }}"
+          echo "Issue number: ${{ github.event.issue.number }}"
+          echo "Issue url: ${{ github.event.issue.url }}"
+          echo "Issue labels: ${{ join(github.event.issue.labels) }}"
+          echo "Issue assgine: ${{ join(github.event.issue.assignees.login) }}"
