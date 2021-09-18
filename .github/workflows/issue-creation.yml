@@ -34,11 +34,27 @@ jobs:
                                   {
                                       "textParagraph": {
                                           "text": "<b>Creator:</b> <br>${{ github.event.issue.user.login }}</br>"
-                                          "text": "<b>Title:</b> <br>${{ github.event.issue.title }}</br>"
-                                          "text": "<b>Assigned Lables:</b> <br><font color='"fffff"'>${{ join(github.event.issue.labels.*.name) }}</font></br>"
-                                          "text": "<b>Assignees:</b> <br>${{ join(github.event.issue.assignees.*.login) }}</br>"
+
                                       }
-                                  }
+                                  },
+                                  {
+                                     "keyValue": {
+                                          "topLabel": "Issue URL:",
+                                          "content": "Issue URL:",
+                                          "contentMultiline": "false",
+                                          "bottomLabel": "",
+                                          "button": {
+                                              "textButton": {
+                                                "text": "VIEW",
+                                                "onClick": {
+                                                    "openLink": {
+                                                          "url": ${{ github.event.issue.html_url }}
+                                                      }
+                                                 }
+                                               }
+                                           }
+                                      }
+                                   }
                               ]
                           }
                       ]
