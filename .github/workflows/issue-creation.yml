@@ -41,7 +41,7 @@ jobs:
                                   },
                                   {
                                      "keyValue": {
-                                          "topLabel": "Issue URL:",
+                                          "topLabel": "Check Issue:",
                                           "content": "Issue URL:",
                                           "contentMultiline": "false",
                                           "bottomLabel": "",
